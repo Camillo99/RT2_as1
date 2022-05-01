@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to assignment_3’s documentation! &mdash; assignment_3 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> assignment_3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to assignment_3’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#module-scripts.user_controller">User Controller</a></li>
+<li><a class="reference internal" href="#module-scripts.keyboard_controller">Keyboard Controller</a></li>
+<li><a class="reference internal" href="#module-scripts.case1">Case 1</a></li>
+<li><a class="reference internal" href="#module-scripts.case3">Case 3</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">assignment_3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Welcome to assignment_3’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="welcome-to-assignment-3-s-documentation">
+<h1>Welcome to assignment_3’s documentation!<a class="headerlink" href="#welcome-to-assignment-3-s-documentation" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="module-scripts.user_controller">
+<span id="user-controller"></span><h1>User Controller<a class="headerlink" href="#module-scripts.user_controller" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-user_controller"></span><p>This node implements an user interface for controlling the robot</p>
+<dl>
+<dt>Service:</dt><dd><p>/keyboard_type</p>
+<p>/coordinate_xy</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_controller.my_user_controller">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_controller.</span></span><span class="sig-name descname"><span class="pre">my_user_controller</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_controller.html#my_user_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_controller.my_user_controller" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the ROS node</p>
+<p>In an infinite while loop, allows the user to visualize all the possible
+options and select one</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_controller.opt_menu">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_controller.</span></span><span class="sig-name descname"><span class="pre">opt_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_controller.html#opt_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_controller.opt_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Print the option menu on terminal and wait for a numerical answer by the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>selected option</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_controller.option1">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_controller.</span></span><span class="sig-name descname"><span class="pre">option1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_controller.html#option1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_controller.option1" title="Permalink to this definition"></a></dt>
+<dd><p>get from the user the specific (x,y) coordinate and send it to the handler service
+for this option
+if the target is reached (or not) print a response from the service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_controller.option2">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_controller.</span></span><span class="sig-name descname"><span class="pre">option2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_controller.html#option2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_controller.option2" title="Permalink to this definition"></a></dt>
+<dd><p>call the keyboard service to handle the second case
+(guide without collision avoidance)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_controller.option3">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_controller.</span></span><span class="sig-name descname"><span class="pre">option3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_controller.html#option3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_controller.option3" title="Permalink to this definition"></a></dt>
+<dd><p>call the keyboard service to handle the third case
+(guide with collision avoidance)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.keyboard_controller">
+<span id="keyboard-controller"></span><h1>Keyboard Controller<a class="headerlink" href="#module-scripts.keyboard_controller" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-keyboard_controller"></span><p>This node allows the UI for controlling the robot motion, to efficently comunicate with the robot enviroment</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/keyboard_type</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.keyboard_controller.handler">
+<span class="sig-prename descclassname"><span class="pre">scripts.keyboard_controller.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/keyboard_controller.html#handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.keyboard_controller.handler" title="Permalink to this definition"></a></dt>
+<dd><p>Read the request parameter and choose whether it is case 2 or case 3 of the
+user option menu, then call the dedicated launch file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>req</strong> – value of the request (case 2 or case 3)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>always returns 0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.keyboard_controller.my_keyboard_server">
+<span class="sig-prename descclassname"><span class="pre">scripts.keyboard_controller.</span></span><span class="sig-name descname"><span class="pre">my_keyboard_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/keyboard_controller.html#my_keyboard_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.keyboard_controller.my_keyboard_server" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the ROS node and call the service handler</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.case1">
+<span id="case-1"></span><h1>Case 1<a class="headerlink" href="#module-scripts.case1" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-autonomous_point_reaching"></span><p>This node implements the first option seleceted by the user</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/coordinate_xy</p>
+</dd>
+<dt>Action:</dt><dd><p>/move_base</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case1.handler">
+<span class="sig-prename descclassname"><span class="pre">scripts.case1.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case1.html#handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case1.handler" title="Permalink to this definition"></a></dt>
+<dd><p>Read the request provided by the user</p>
+<p>Create a goal (using user’s data)</p>
+<p>Send the goal and wait for a result</p>
+<p>A timeout is set to prevent infinite waiting in case the target is out of the range
+of the robot</p>
+<p>If the target is reached or if the timeout is over the service return to user_controller</p>
+<p>If the target is not reached call cancel_goal for the action</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case1.my_coordinate_server">
+<span class="sig-prename descclassname"><span class="pre">scripts.case1.</span></span><span class="sig-name descname"><span class="pre">my_coordinate_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case1.html#my_coordinate_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case1.my_coordinate_server" title="Permalink to this definition"></a></dt>
+<dd><p>Print general information about the node</p>
+<p>Initialize the node</p>
+<p>Call the service handler</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.case3">
+<span id="case-3"></span><h1>Case 3<a class="headerlink" href="#module-scripts.case3" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-case_3"></span><p>This node implements the third option seleceted by the user, and prevent the robot to collide with the wall of the enviroment</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/scan data measured by a laser scan sensor
+/remap_cmd_vel data from the teleop_twist_keyboard node for controlling the robot movement</p>
+</dd>
+<dt>Publishes to:</dt><dd><p>/cmd_vel send the Twist to the robot simulator</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case3.callback_remap">
+<span class="sig-prename descclassname"><span class="pre">scripts.case3.</span></span><span class="sig-name descname"><span class="pre">callback_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case3.html#callback_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case3.callback_remap" title="Permalink to this definition"></a></dt>
+<dd><p>this function copies remap_cmd_vel in a global variable -&gt; ready to be:
+modified by the controller or
+reposted as it was</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – twist from the remap_cmd_vel topic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case3.callback_scan">
+<span class="sig-prename descclassname"><span class="pre">scripts.case3.</span></span><span class="sig-name descname"><span class="pre">callback_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case3.html#callback_scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case3.callback_scan" title="Permalink to this definition"></a></dt>
+<dd><p>this function takes both the twist from remap_cmd_vel and the distances from laser scan
+and in case of illegal motion (colliding the wall) prevents this action zeroing the twist published to the robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data from /scan topic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case3.compute_min_dist">
+<span class="sig-prename descclassname"><span class="pre">scripts.case3.</span></span><span class="sig-name descname"><span class="pre">compute_min_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case3.html#compute_min_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case3.compute_min_dist" title="Permalink to this definition"></a></dt>
+<dd><p>function for computing the minimal measured distance on the right, front and left of the robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ranges</strong> – array from the LaserScan, containing all the distances measured by the laser sensor</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a 3 dimensional array containing the right, front, and left minimal distance measured by the laser sensor</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>double[]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.case3.keyboard_remap">
+<span class="sig-prename descclassname"><span class="pre">scripts.case3.</span></span><span class="sig-name descname"><span class="pre">keyboard_remap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/case3.html#keyboard_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.case3.keyboard_remap" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the ROS node and subscribe to topics:
+/remap_cmd_vel
+/scan</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Camillo Murgia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

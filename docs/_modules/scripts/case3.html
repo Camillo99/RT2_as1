@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.case3 &mdash; assignment_3 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> assignment_3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">assignment_3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>scripts.case3</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.case3</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: case_3</span>
+<span class="sd">    :platform: Unix</span>
+<span class="sd">    :synopsis: Python module for handling the third option selected by the user</span>
+<span class="sd">    </span>
+<span class="sd">.. moduleauthor:: Camillo Murgia</span>
+
+<span class="sd">This node implements the third option seleceted by the user, and prevent the robot to collide with the wall of the enviroment</span>
+
+<span class="sd">Subscribes to:</span>
+<span class="sd">    /scan data measured by a laser scan sensor</span>
+<span class="sd">    /remap_cmd_vel data from the teleop_twist_keyboard node for controlling the robot movement</span>
+<span class="sd">    </span>
+<span class="sd">Publishes to:</span>
+<span class="sd">    /cmd_vel send the Twist to the robot simulator </span>
+
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">Vector3</span>    <span class="c1">#for cmd_vel topic</span>
+<span class="kn">from</span> <span class="nn">sensor_msgs.msg</span> <span class="kn">import</span> <span class="n">LaserScan</span>           <span class="c1">#for scan topic</span>
+
+<span class="c1">#linit distance to an ovstacle for avoiding collision</span>
+<span class="n">min_star</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1">#initialize a Twist object for the publisher</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">repost</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">(</span> <span class="n">init</span><span class="p">,</span> <span class="n">init</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="compute_min_dist"><a class="viewcode-back" href="../../index.html#scripts.case3.compute_min_dist">[docs]</a><span class="k">def</span> <span class="nf">compute_min_dist</span><span class="p">(</span><span class="n">ranges</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    function for computing the minimal measured distance on the right, front and left of the robot</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        ranges: array from the LaserScan, containing all the distances measured by the laser sensor</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        double[]: a 3 dimensional array containing the right, front, and left minimal distance measured by the laser sensor</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#first block -&gt; right side</span>
+    <span class="c1">#second block -&gt; front side</span>
+    <span class="c1">#third block -&gt; left side</span>
+    <span class="c1">#init</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1">#divide the ranges array in 3 parts</span>
+    <span class="c1">#right part</span>
+    <span class="c1">#middle part</span>
+    <span class="c1">#left part</span>
+    <span class="n">sub_right</span> <span class="o">=</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">240</span><span class="p">]</span>
+    <span class="n">sub_mid</span> <span class="o">=</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">240</span><span class="p">:</span><span class="mi">480</span><span class="p">]</span>
+    <span class="n">sub_left</span> <span class="o">=</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">480</span><span class="p">:</span><span class="mi">721</span><span class="p">]</span>
+    <span class="c1">#compute and store the min distance</span>
+    <span class="n">distance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sub_right</span><span class="p">)</span>
+    <span class="n">distance</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sub_mid</span><span class="p">)</span>
+    <span class="n">distance</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sub_left</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">distance</span></div>
+        
+  
+
+<div class="viewcode-block" id="callback_scan"><a class="viewcode-back" href="../../index.html#scripts.case3.callback_scan">[docs]</a><span class="k">def</span> <span class="nf">callback_scan</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    this function takes both the twist from remap_cmd_vel and the distances from laser scan</span>
+<span class="sd">    and in case of illegal motion (colliding the wall) prevents this action zeroing the twist published to the robot</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        data: data from /scan topic</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#use a global variable </span>
+    <span class="k">global</span> <span class="n">repost</span>
+    <span class="c1">#initialize the publisher</span>
+    <span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span><span class="n">Twist</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c1">#compute the minimun obsable distance to the right, left and in front of the robot</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">compute_min_dist</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ranges</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_star</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1">#avoid turning right -&gt; w = -1   </span>
+            <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>    
+    <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_star</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1">#deny moving toward an obstacle</span>
+            <span class="n">repost</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_star</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1">#avoid turning left -&gt; w = 1</span>
+            <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">#pubblic on topic cmd_vel to the robot</span>
+    <span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">repost</span><span class="p">)</span></div>
+
+
+
+
+<span class="c1">#copy remap_cmd_vel on repost -&gt; ready to be:</span>
+<span class="c1">#modified by the controller or</span>
+<span class="c1">#reposted as it was</span>
+<div class="viewcode-block" id="callback_remap"><a class="viewcode-back" href="../../index.html#scripts.case3.callback_remap">[docs]</a><span class="k">def</span> <span class="nf">callback_remap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    this function copies remap_cmd_vel in a global variable -&gt; ready to be:</span>
+<span class="sd">    modified by the controller or</span>
+<span class="sd">    reposted as it was</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        data: twist from the remap_cmd_vel topic</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#use a global variable</span>
+    <span class="k">global</span> <span class="n">repost</span>
+    <span class="n">repost</span> <span class="o">=</span> <span class="n">data</span></div>
+  
+<div class="viewcode-block" id="keyboard_remap"><a class="viewcode-back" href="../../index.html#scripts.case3.keyboard_remap">[docs]</a><span class="k">def</span> <span class="nf">keyboard_remap</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the ROS node and subscribe to topics:</span>
+<span class="sd">    /remap_cmd_vel </span>
+<span class="sd">    /scan</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#initialize the node</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;keyboard_remap_node&#39;</span><span class="p">)</span>
+    <span class="c1">#subscriber to topic remap_cmd_vel    </span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;/remap_cmd_vel&quot;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">callback_remap</span><span class="p">)</span>
+    <span class="c1">#subscriber to topic scan</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;/scan&quot;</span><span class="p">,</span> <span class="n">LaserScan</span><span class="p">,</span> <span class="n">callback_scan</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span></div>
+    
+<span class="c1">#main </span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">keyboard_remap</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Camillo Murgia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
