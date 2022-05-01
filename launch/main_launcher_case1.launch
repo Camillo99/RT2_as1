@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="user" pkg="a3_code" type="user_controller.py"  output="screen"  />
+   
+   <node name="case1" pkg="a3_code" type="case1.py"  output="screen" launch-prefix="xterm -e"/>
+
+ <node name="keyboard" pkg="a3_code" type="keyboard_controller.py"  output="screen" launch-prefix="xterm -e" />
+
+</launch>
+
+

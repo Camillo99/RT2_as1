@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.user_controller &mdash; assignment_3 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> assignment_3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">assignment_3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>scripts.user_controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.user_controller</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: user_controller</span>
+<span class="sd">    :platform: Unix</span>
+<span class="sd">    :synopsis: Python module for the user controlling interface</span>
+<span class="sd">    </span>
+<span class="sd">.. moduleauthor:: Camillo Murgia</span>
+
+<span class="sd">This node implements an user interface for controlling the robot</span>
+
+<span class="sd">Service:</span>
+<span class="sd">    /keyboard_type</span>
+<span class="sd">    </span>
+<span class="sd">    /coordinate_xy</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">a3_code.srv</span> <span class="kn">import</span> <span class="n">Keyboard_type</span>	<span class="c1">#used in case 2,3</span>
+<span class="kn">from</span> <span class="nn">a3_code.srv</span> <span class="kn">import</span> <span class="n">Coordinate_xy</span>	<span class="c1">#used in case 1</span>
+
+
+<div class="viewcode-block" id="opt_menu"><a class="viewcode-back" href="../../index.html#scripts.user_controller.opt_menu">[docs]</a><span class="k">def</span> <span class="nf">opt_menu</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print the option menu on terminal and wait for a numerical answer by the user</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        selected option</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1) autonomously reach a x,y coordinate provided by the user&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2) drive the robot using the keyboard&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3) drive the robot using the keyboard with collisions avoidance&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;0) quit the program&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>        
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;select an action: &quot;</span><span class="p">)</span></div>
+
+   
+<div class="viewcode-block" id="option1"><a class="viewcode-back" href="../../index.html#scripts.user_controller.option1">[docs]</a><span class="k">def</span> <span class="nf">option1</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    get from the user the specific (x,y) coordinate and send it to the handler service</span>
+<span class="sd">    for this option</span>
+<span class="sd">    if the target is reached (or not) print a response from the service</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        No return value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;case 1&quot;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;insert x: &quot;</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;insert y: &quot;</span><span class="p">))</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;coordinate_xy&#39;</span><span class="p">)</span>
+    <span class="n">coordinate_xy</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;coordinate_xy&#39;</span><span class="p">,</span> <span class="n">Coordinate_xy</span><span class="p">)</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">coordinate_xy</span><span class="p">(</span><span class="n">x</span> <span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rt</span><span class="o">.</span><span class="n">return_</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target reached successfully!&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target not reached&quot;</span><span class="p">)</span></div>
+
+        	
+<div class="viewcode-block" id="option2"><a class="viewcode-back" href="../../index.html#scripts.user_controller.option2">[docs]</a><span class="k">def</span> <span class="nf">option2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    call the keyboard service to handle the second case  </span>
+<span class="sd">    (guide without collision avoidance)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        No return value </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;case 2&quot;</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;keyboard_type&#39;</span><span class="p">)</span>
+    <span class="n">keyboard_type</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;keyboard_type&#39;</span><span class="p">,</span> <span class="n">Keyboard_type</span><span class="p">)</span>
+    <span class="n">keyboard_type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<span class="c1">#call the keyboard service to handle the case</span>
+<div class="viewcode-block" id="option3"><a class="viewcode-back" href="../../index.html#scripts.user_controller.option3">[docs]</a><span class="k">def</span> <span class="nf">option3</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    call the keyboard service to handle the third case</span>
+<span class="sd">    (guide with collision avoidance)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        No return value </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;case 3&quot;</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;keyboard_type&#39;</span><span class="p">)</span>
+    <span class="n">keyboard_type</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;keyboard_type&#39;</span><span class="p">,</span> <span class="n">Keyboard_type</span><span class="p">)</span>
+    <span class="n">keyboard_type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="my_user_controller"><a class="viewcode-back" href="../../index.html#scripts.user_controller.my_user_controller">[docs]</a><span class="k">def</span> <span class="nf">my_user_controller</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the ROS node</span>
+<span class="sd">    </span>
+<span class="sd">    In an infinite while loop, allows the user to visualize all the possible</span>
+<span class="sd">    options and select one</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+    <span class="c1">#initialize the ros node</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;user_controller&#39;</span><span class="p">)</span>
+
+    <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">flag</span><span class="p">):</span>
+        <span class="c1">#print all the possible action which the user can performs</span>
+        <span class="c1">#store the answer of the user in variable &#39;ans&#39;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">opt_menu</span><span class="p">()</span>
+        
+        <span class="c1">#check the validity of the answer</span>
+        <span class="k">if</span> <span class="n">ans</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ans</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c1">#case 1</span>
+                <span class="n">option1</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">ans</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="c1">#case 2</span>
+                <span class="n">option2</span><span class="p">()</span>  
+            <span class="k">elif</span> <span class="p">(</span><span class="n">ans</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+                <span class="c1">#case 3    </span>
+                <span class="n">option3</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">ans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="c1">#quit case</span>
+            	<span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span>
+            	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;press ctrl-C to quit&quot;</span><span class="p">)</span>
+            	<span class="nb">print</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1">#incorrect input</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;incorrect input!!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1">#non numerical input</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input value is not a number!!&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1">#main</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">my_user_controller</span><span class="p">()</span>
+           
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Camillo Murgia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
