@@ -2,6 +2,11 @@
 
 #  Research track 1, assignment 3
 
+
+## Documentation
+[documentation](https://camillo99.github.io/RT2_as1/)  
+
+
 ## Description of the assignment
 In this assignment an environment and a robot is given, also with a mapping system. The goal of the assignment is implementing an user interface that can allows the user to:
 - autonomously drive the robot to a specified target (x,y coordinate)
